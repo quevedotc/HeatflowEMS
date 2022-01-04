@@ -1,0 +1,83 @@
+!-   ===========  ALL OBJECTS IN CLASS: ENERGYMANAGEMENTSYSTEM:SENSOR ===========
+
+EnergyManagementSystem:Sensor,
+    Temp_Sup_Int_Cob1,       !- Name
+    Surface 44,              !- Output:Variable or Output:Meter Index Key Name
+    Surface Inside Face Temperature;  !- Output:Variable or Output:Meter Name
+
+EnergyManagementSystem:Sensor,
+    Temp_Sup_Int_Cob3,       !- Name
+    Surface 14,              !- Output:Variable or Output:Meter Index Key Name
+    Surface Inside Face Temperature;  !- Output:Variable or Output:Meter Name
+
+EnergyManagementSystem:Sensor,
+    Temp_Sup_Ext_Cob1,       !- Name
+    Surface 44,              !- Output:Variable or Output:Meter Index Key Name
+    Surface Outside Face Temperature;  !- Output:Variable or Output:Meter Name
+
+EnergyManagementSystem:Sensor,
+    Temp_Sup_Ext_Cob3,       !- Name
+    Surface 14,              !- Output:Variable or Output:Meter Index Key Name
+    Surface Outside Face Temperature;  !- Output:Variable or Output:Meter Name
+
+
+!-   ===========  ALL OBJECTS IN CLASS: ENERGYMANAGEMENTSYSTEM:ACTUATOR ===========
+
+EnergyManagementSystem:Actuator,
+    Forro_Cob1,              !- Name
+    Surface 44,              !- Actuated Component Unique Name
+    Surface,                 !- Actuated Component Type
+    Construction State;      !- Actuated Component Control Type
+
+EnergyManagementSystem:Actuator,
+    Forro_Cob3,              !- Name
+    Surface 14,              !- Actuated Component Unique Name
+    Surface,                 !- Actuated Component Type
+    Construction State;      !- Actuated Component Control Type
+
+
+!-   ===========  ALL OBJECTS IN CLASS: ENERGYMANAGEMENTSYSTEM:PROGRAMCALLINGMANAGER ===========
+
+EnergyManagementSystem:ProgramCallingManager,
+    RESISTENCIA_AR,          !- Name
+    BeginTimestepBeforePredictor,  !- EnergyPlus Model Calling Point
+    TEMP_SUP_COB1,           !- Program Name 1
+    TEMP_SUP_COB3;           !- Program Name 2
+
+
+!-   ===========  ALL OBJECTS IN CLASS: ENERGYMANAGEMENTSYSTEM:PROGRAM ===========
+
+EnergyManagementSystem:Program,
+    TEMP_SUP_COB1,           !- Name
+    IF Temp_Sup_Int_Cob1 <  Temp_Sup_Ext_Cob1,  !- Program Line 1
+    Set Forro_Cob1 = COB_1,  !- Program Line 2
+    ELSEIF Temp_Sup_Int_Cob1> Temp_Sup_Ext_Cob1,  !- A4
+    Set Forro_Cob1= COB1_ascend,  !- A5
+    ENDIF;                   !- A6
+
+EnergyManagementSystem:Program,
+    TEMP_SUP_COB3,           !- Name
+    IF Temp_Sup_Int_Cob3 <  Temp_Sup_Ext_Cob3,  !- Program Line 1
+    Set Forro_Cob3 = COB_3,  !- Program Line 2
+    ELSEIF Temp_Sup_Int_Cob3 > Temp_Sup_Ext_Cob3,  !- A4
+    Set Forro_Cob3  = COB3_ascend,  !- A5
+    ENDIF;                   !- A6
+
+
+!-   ===========  ALL OBJECTS IN CLASS: ENERGYMANAGEMENTSYSTEM:CONSTRUCTIONINDEXVARIABLE ===========
+
+EnergyManagementSystem:ConstructionIndexVariable,
+    COB_1,                   !- Name
+    COB1;                    !- Construction Object Name
+
+EnergyManagementSystem:ConstructionIndexVariable,
+    COB1_ascend,             !- Name
+    COB1 ascend;             !- Construction Object Name
+
+EnergyManagementSystem:ConstructionIndexVariable,
+    COB_3,                   !- Name
+    COB3;                    !- Construction Object Name
+
+EnergyManagementSystem:ConstructionIndexVariable,
+    COB3_ascend,             !- Name
+    COB3 ascend;             !- Construction Object Name
